@@ -3,6 +3,7 @@ import {
   Button,
   HStack,
   IconButton,
+  Stack,
   useColorMode,
   useColorModeValue,
   useDisclosure,
@@ -26,10 +27,19 @@ export default function Header() {
   const logoColor = useColorModeValue("red.500", "red.200");
 
   return (
-    <HStack
+    <Stack
       justifyContent={"space-between"}
+      alignItems={"center"}
       py={"5"}
-      px={"10"}
+      px={"40"}
+      direction={{
+        sm: "column",
+        md: "row",
+      }}
+      spacing={{
+        sm: "3",
+        md: "4",
+      }}
       borderBottomWidth={1}
     >
       <Box color={logoColor}>
@@ -47,6 +57,6 @@ export default function Header() {
       </HStack>
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       <SignupModal isOpen={isSignupOpen} onClose={onSignupClose} />
-    </HStack>
+    </Stack>
   );
 }
