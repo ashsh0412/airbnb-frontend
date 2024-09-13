@@ -1,14 +1,37 @@
-import {
-  Box,
-  Grid,
-  Skeleton,
-  SkeletonText,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Grid, Skeleton, SkeletonText } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import RoomSkeleton from "../components/RoomSkeleton";
 import Room from "../components/Room";
 
+interface IPhoto {
+  pk: string;
+  file: string;
+  description: string;
+}
+
+interface IRoom {
+  name: string;
+  pk: number;
+  country: string;
+  city: string;
+  price: number;
+  rating: number;
+  is_owner: boolean;
+  photos: IPhoto[];
+}
+
 export default function Home() {
+  const [isLoading, setIsloading] = useState(true);
+  const [rooms, setRooms] = useState<IRoom[]>([]);
+  const fetchRooms = async () => {
+    const response = await fetch("http://127.0.0.1:8000/api/v1/rooms/");
+    const json = await response.json();
+    setRooms(json);
+    setIsloading(false);
+  };
+  useEffect(() => {
+    fetchRooms();
+  }, []);
   return (
     <Grid
       mt={10}
@@ -26,11 +49,28 @@ export default function Home() {
         "2xl": "repeat(5, 1fr)",
       }}
     >
-      <Box>
-        <Skeleton rounded={"2xl"} height={280} mb={5} />
-        <SkeletonText width={"50%"} noOfLines={3} />
-      </Box>
-      <Room />
+      {isLoading ? (
+        <>
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+          <RoomSkeleton />
+        </>
+      ) : null}
+      {rooms.map((room) => (
+        <Room
+          name={room.name}
+          country={room.country}
+          city={room.city}
+          rating={room.rating}
+          price={room.price}
+          imageUrl={room.photos[0].file}
+        />
+      ))}
     </Grid>
   );
 }
