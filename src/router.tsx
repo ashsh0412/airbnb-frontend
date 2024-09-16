@@ -13,7 +13,9 @@ const router = createBrowserRouter([
   },
   {
     path: "rooms/:roomPk",
-    element: <RoomDetail />,
+    element: <Root />,
+    errorElement: <NotFound />,
+    children: [{ path: "", element: <RoomDetail /> }],
   },
 ]);
 

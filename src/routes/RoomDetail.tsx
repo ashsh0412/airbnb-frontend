@@ -7,13 +7,10 @@ import { getRoom } from "../api";
 export default function RoomDetail() {
   const { roomPk } = useParams();
   const { isLoading, data } = useQuery({
-    queryKey: [`rooms/${roomPk}`],
+    queryKey: [`rooms`,roomPk],
     queryFn: getRoom,
   });
   return (
-    <Box>
-      <Header />
-      <Outlet />
-    </Box>
+    <h1>hello</h1>
   );
 }
