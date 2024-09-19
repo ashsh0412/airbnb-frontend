@@ -13,6 +13,7 @@ import {
   useColorMode,
   useColorModeValue,
   useDisclosure,
+  useQuery,
   useToast,
 } from "@chakra-ui/react";
 import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";
@@ -20,7 +21,7 @@ import LoginModal from "./LoginModal";
 import SignupModal from "./SignUpModal";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
-import { title } from "process";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
@@ -37,18 +38,20 @@ export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const logoColor = useColorModeValue("red.500", "red.200");
   const toast = useToast();
+  const queryClient = useQueryClient();
   const onLogOut = async () => {
     const toastId = toast({
-      title: "Log out...",
+      title: "Login out...",
       description: "Sad to see you go...",
       status: "loading",
       position: "bottom-right",
-      duration: 2000,
     });
+    await logOut();
+    queryClient.refetchQueries({ queryKey: ["me"] });
     toast.update(toastId, {
       status: "success",
-      title: "Log out!",
-      description: "See you later",
+      title: "Done!",
+      description: "See you later!",
     });
   };
   return (
