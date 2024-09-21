@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton, SkeletonText } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import RoomSkeleton from "../components/RoomSkeleton";
 import Room from "../components/Room";
 import { useQuery } from "@tanstack/react-query";
@@ -34,6 +34,7 @@ export default function Home() {
       ) : null}
       {data?.map((room) => (
         <Room
+          key={room.pk} // Add this key prop
           pk={room.pk}
           name={room.name}
           country={room.country}

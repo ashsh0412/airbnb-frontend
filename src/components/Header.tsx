@@ -13,7 +13,6 @@ import {
   useColorMode,
   useColorModeValue,
   useDisclosure,
-  useQuery,
   useToast,
 } from "@chakra-ui/react";
 import { FaAirbnb, FaMoon, FaSun } from "react-icons/fa";

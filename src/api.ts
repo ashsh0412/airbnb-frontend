@@ -25,14 +25,15 @@ export const getRoomReviews = ({ queryKey }: QueryFunctionContext) => {
 export const getMe = () =>
   instance.get(`users/me`).then((response) => response.data);
 
-export const logOut = () =>
-  instance
+export const logOut = () => {
+  return instance
     .post(`users/log-out`, null, {
       headers: {
         "X-CSRFToken": Cookie.get("csrftoken") || "",
       },
     })
     .then((response) => response.data);
+};
 
 export const githubLogIn = (code: string) =>
   instance
