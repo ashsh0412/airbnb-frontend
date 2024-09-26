@@ -7,28 +7,53 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import SocialLogin from "./socialLogin";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface Iform {
+  username: string;
+  password: string;
+}
+
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Iform>();
+  const onSubmit = (data: Iform) => {};
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Log in</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody as={"form"} onSubmit={handleSubmit(onSubmit)}>
           <VStack>
-            <Input variant={"filled"} placeholder="Username" />
-            <Input variant={"filled"} placeholder="Password" />
+            <Input
+              isInvalid={Boolean(errors.username?.message)}
+              {...register("username", { required: "Please enter username" })}
+              variant={"filled"}
+              placeholder="Username"
+            />
+            <Input
+              isInvalid={Boolean(errors.password?.message)}
+              type="password"
+              {...register("password", { required: "Please enter password" })}
+              variant={"filled"}
+              placeholder="Password"
+            />
           </VStack>
-          <Button mt={4} colorScheme="red" w={"100%"}>
+          <Button type="submit" mt={4} colorScheme="red" w={"100%"}>
             Log in
           </Button>
           <SocialLogin />
