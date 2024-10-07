@@ -37,10 +37,7 @@ export interface IRoomDetail extends IRoomList {
   kind: string;
   is_owner: boolean;
   is_liked: boolean;
-  category: {
-    name: string;
-    kind: string;
-  };
+  category: ICategory;
   owner: IRoomOwner;
   amenities: IAmenity[];
 }
@@ -62,4 +59,10 @@ export interface IUser {
   gender: string;
   language: string;
   currency: string;
+}
+
+export interface ICategory {
+  pk: number;
+  name: string;
+  kind: string;
 }
